@@ -126,3 +126,21 @@ $kernel->launch();
 //    9.2. Полная сверка хэшей и прав system/ по истечении check_interval.
 \System\Security\Tripwire::runStrayCheckIfDue();
 \System\Security\Tripwire::runBackgroundCheckIfDue();
+
+// C4: Сбор мусора кэша с вероятностью 1/200 и не чаще раза в 10 минут.
+$gcMarker = STORAGEPATH . '/.cache_gc_at';
+$now = time();
+$runGc = false;
+if (!is_file($gcMarker)) {
+    $runGc = (mt_rand(1, 200) === 1);
+} else {
+    $last = (int)@file_get_contents($gcMarker);
+    if ($now - $last >= 600 && mt_rand(1, 200) === 1) {
+        $runGc = true;
+    }
+}
+if ($runGc) {
+    @file_put_contents($gcMarker, (string)$now, LOCK_EX);
+    $deleted = (new \System\Services\Cache())->gc();
+    \System\Services\LogService::write("Cache::gc() удалено файлов: {$deleted}", 'info', 'app.log');
+}

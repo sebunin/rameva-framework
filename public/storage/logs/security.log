@@ -1,0 +1,45 @@
+[2026-09-26 23:40:08] [WARNING] [IP: 127.0.0.1] Blacklisted path accessed: /wp-login.php
+[2026-09-26 23:40:09] [WARNING] [IP: 127.0.0.1] Blacklisted path accessed: /.env
+[2026-09-26 23:40:50] [WARNING] [IP: 127.0.0.1] Blacklisted path accessed: /wp-login.php
+[2026-09-26 23:40:50] [WARNING] [IP: 127.0.0.1] Blacklisted path accessed: /.env
+[2026-09-26 23:41:19] [WARNING] [IP: 127.0.0.1] Blacklisted path accessed: /wp-login.php
+[2026-09-26 23:41:37] [WARNING] [IP: 127.0.0.1] Blacklisted path accessed: /.env
+[2026-09-27 15:23:23] [WARNING] [IP: 198.51.100.99] Rate limit exceeded for IP 198.51.100.99 (4 req/2s). Blocked for 2s.
+[2026-09-27 15:23:51] [WARNING] [IP: 198.51.100.99] Rate limit exceeded for IP 198.51.100.99 (4 req/2s). Blocked for 2s.
+[2026-09-27 15:24:18] [WARNING] [IP: 198.51.100.99] Rate limit exceeded for IP 198.51.100.99 (3 req/1s). Blocked for 1s.
+[2026-09-27 15:24:32] [WARNING] [IP: 198.51.100.99] Rate limit exceeded for IP 198.51.100.99 (3 req/1s). Blocked for 1s.
+[2026-09-29 00:15:14] [WARNING] [IP: 127.0.0.1] Blacklisted path accessed: /wp-login.php
+[2026-09-29 01:47:34] [WARNING] [IP: 127.0.0.1] Blacklisted path accessed: /xmlrpc.php
+[2026-09-29 01:47:34] [WARNING] [IP: 127.0.0.1] Blacklisted path accessed: /wp-login.php
+[2026-09-29 01:47:34] [WARNING] [IP: 127.0.0.1] Blacklisted path accessed: /wp-content/plugins/x.php
+[2026-09-30 08:43:39] [WARNING] [IP: 127.0.0.1] Blacklisted path accessed: /xmlrpc.php
+[2026-09-30 08:43:39] [WARNING] [IP: 127.0.0.1] Integrity: обращение к cron.php без корректного ключа
+[2026-09-30 08:44:08] [WARNING] [IP: 127.0.0.1] Blacklisted path accessed: /xmlrpc.php
+[2026-09-30 08:44:49] [WARNING] [IP: 127.0.0.1] Integrity: обращение к cron.php без корректного ключа
+[2026-09-30 08:44:49] [WARNING] [IP: 127.0.0.1] Integrity: обращение к cron.php без корректного ключа
+[2026-09-30 08:51:38] [WARNING] [IP: 127.0.0.1] Integrity: обращение к cron.php без корректного ключа
+[2026-09-30 08:51:38] [WARNING] [IP: 127.0.0.1] Blacklisted path accessed: /xmlrpc.php
+[2026-11-13 18:36:40] [WARNING] [IP: 127.0.0.1] installer: POST без корректного ключа установки
+[2026-11-13 18:48:00] [WARNING] [IP: 127.0.0.1] installer: POST без корректного ключа установки
+[2026-11-13 18:48:50] [WARNING] [IP: 127.0.0.1] installer: POST без корректного ключа установки
+[2026-11-13 18:49:43] [DEBUG] [IP: 127.0.0.1] installer POST raw=[{action:run_diagnostics}] CT=application/json
+[2026-11-13 18:51:05] [DEBUG] [IP: 127.0.0.1] installer POST raw=[{action:run_diagnostics}] CT=application/json
+[2026-11-13 18:51:22] [WARNING] [IP: 127.0.0.1] installer: POST без корректного ключа установки
+[2026-11-13 18:51:47] [DEBUG] [IP: 127.0.0.1] installer POST raw=[{action:run_diagnostics}] CT=application/json
+[2026-11-13 18:54:02] [WARNING] [IP: 127.0.0.1] Integrity: обращение к cron.php без корректного ключа
+[2026-11-13 19:01:37] [INFO] [IP: 127.0.0.1] installer: установка завершена, security_posture=secure
+[2026-11-13 19:02:02] [WARNING] [IP: 127.0.0.1] Integrity: обращение к cron.php без корректного ключа
+[2026-11-13 19:43:13] [WARNING] [IP: 127.0.0.1] Integrity: обращение к cron.php без корректного ключа
+[2026-11-14 11:32:23] [WARNING] [IP: 127.0.0.1] Form honeypot triggered: contact
+[2026-11-14 20:42:41] [WARNING] [IP: 127.0.0.1] Form honeypot triggered: contact
+[2026-11-14 23:16:07] [WARNING] [IP: 127.0.0.1] Form honeypot triggered: contact
+[2026-11-14 23:16:54] [WARNING] [IP: 127.0.0.1] Form honeypot triggered: contact
+[2026-11-15 23:56:35] [WARNING] [IP: 127.0.0.1] Integrity: обращение к cron.php без корректного ключа
+[2026-11-16 19:03:50] [WARNING] [IP: 127.0.0.1] Integrity: обращение к cron.php без корректного ключа
+[2026-11-16 19:04:02] [WARNING] [IP: 127.0.0.1] Integrity: обращение к cron.php без корректного ключа
+[2026-11-16 19:07:08] [WARNING] [IP: 127.0.0.1] Blacklisted path accessed: /wp-login.php
+[2026-11-16 19:07:08] [WARNING] [IP: 127.0.0.1] Blacklisted path accessed: /xmlrpc.php
+[2026-11-16 19:07:08] [WARNING] [IP: 127.0.0.1] Integrity: обращение к cron.php без корректного ключа
+[2026-11-16 19:08:32] [WARNING] [IP: 127.0.0.1] Blacklisted path accessed: /wp-login.php
+[2026-11-16 19:08:32] [WARNING] [IP: 127.0.0.1] Blacklisted path accessed: /xmlrpc.php
+[2026-11-16 19:08:32] [WARNING] [IP: 127.0.0.1] Integrity: обращение к cron.php без корректного ключа

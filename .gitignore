@@ -1,14 +1,14 @@
 # RAMEVA Framework 2
 # Конфигурация, зависящая от окружения (реальные SMTP-реквизиты, trusted_proxies и т.д.)
 # Создаётся вручную на этапе установки и не попадает в репозиторий.
-app/Config/Local.php
+#app/Config/Local.php
 
 # Генерируемые файлы и кэш (хранятся вне репозитория)
-storage/
-!storage/index.php
-!storage/.htaccess
-sitemap.xml
-llms.txt
+#storage/
+#!storage/index.php
+#!storage/.htaccess
+#sitemap.xml
+#llms.txt
 .idea/
 .osp/
 backup/

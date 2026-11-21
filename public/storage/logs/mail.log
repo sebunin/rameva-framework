@@ -1,0 +1,30 @@
+[2026-09-30 08:43:21] [ERROR] [IP: 127.0.0.1] Failed to send mail to admin@fw2.loc
+[2026-09-30 08:45:21] [ERROR] [IP: 127.0.0.1] Failed to send mail to admin@fw2.loc
+[2026-11-14 11:32:19] [ERROR] [IP: 127.0.0.1] mail status=failed recipient_domain=fw2.loc code=transport_error reason=SMTP host is not configured
+[2026-11-14 11:32:27] [ERROR] [IP: 127.0.0.1] mail status=failed recipient_domain=fw2.loc code=transport_error reason=SMTP host is not configured
+[2026-11-14 11:32:31] [ERROR] [IP: 127.0.0.1] mail status=failed recipient_domain=fw2.loc code=transport_error reason=SMTP host is not configured
+[2026-11-14 11:32:35] [ERROR] [IP: 127.0.0.1] mail status=failed recipient_domain=fw2.loc code=transport_error reason=SMTP host is not configured
+[2026-11-14 11:32:39] [ERROR] [IP: 127.0.0.1] mail status=failed recipient_domain=fw2.loc code=transport_error reason=SMTP host is not configured
+[2026-11-14 11:32:43] [ERROR] [IP: 127.0.0.1] mail status=failed recipient_domain=fw2.loc code=transport_error reason=SMTP host is not configured
+[2026-11-14 11:32:51] [ERROR] [IP: 127.0.0.1] mail status=failed recipient_domain=fw2.loc code=transport_error reason=SMTP host is not configured
+[2026-11-14 11:32:55] [ERROR] [IP: 127.0.0.1] mail status=failed recipient_domain=fw2.loc code=transport_error reason=SMTP host is not configured
+[2026-11-14 11:33:00] [ERROR] [IP: 127.0.0.1] mail status=failed recipient_domain=fw2.loc code=rate_limited reason=Mail rate limit exceeded
+[2026-11-14 20:42:37] [INFO] [IP: 127.0.0.1] mail status=sent recipient_domain=fw2.loc code=250
+[2026-11-14 20:42:45] [INFO] [IP: 127.0.0.1] mail status=sent recipient_domain=fw2.loc code=250
+[2026-11-14 20:42:49] [INFO] [IP: 127.0.0.1] mail status=sent recipient_domain=fw2.loc code=250
+[2026-11-14 20:42:53] [INFO] [IP: 127.0.0.1] mail status=sent recipient_domain=fw2.loc code=250
+[2026-11-14 20:42:57] [INFO] [IP: 127.0.0.1] mail status=sent recipient_domain=fw2.loc code=250
+[2026-11-14 20:43:01] [INFO] [IP: 127.0.0.1] mail status=sent recipient_domain=fw2.loc code=250
+[2026-11-14 20:43:10] [INFO] [IP: 127.0.0.1] mail status=sent recipient_domain=fw2.loc code=250
+[2026-11-14 20:43:14] [INFO] [IP: 127.0.0.1] mail status=sent recipient_domain=fw2.loc code=250
+[2026-11-14 20:43:18] [ERROR] [IP: 127.0.0.1] mail status=failed recipient_domain=fw2.loc code=rate_limited reason=Mail rate limit exceeded
+[2026-11-14 23:16:03] [INFO] [IP: 127.0.0.1] mail status=sent recipient_domain=fw2.loc code=250
+[2026-11-14 23:16:50] [INFO] [IP: 127.0.0.1] mail status=sent recipient_domain=fw2.loc code=250
+[2026-11-14 23:17:00] [INFO] [IP: 127.0.0.1] mail status=sent recipient_domain=fw2.loc code=250
+[2026-11-14 23:17:04] [INFO] [IP: 127.0.0.1] mail status=sent recipient_domain=fw2.loc code=250
+[2026-11-14 23:17:08] [INFO] [IP: 127.0.0.1] mail status=sent recipient_domain=fw2.loc code=250
+[2026-11-14 23:17:12] [INFO] [IP: 127.0.0.1] mail status=sent recipient_domain=fw2.loc code=250
+[2026-11-14 23:17:16] [INFO] [IP: 127.0.0.1] mail status=sent recipient_domain=fw2.loc code=250
+[2026-11-14 23:17:24] [INFO] [IP: 127.0.0.1] mail status=sent recipient_domain=fw2.loc code=250
+[2026-11-14 23:17:29] [INFO] [IP: 127.0.0.1] mail status=sent recipient_domain=fw2.loc code=250
+[2026-11-14 23:17:33] [ERROR] [IP: 127.0.0.1] mail status=failed recipient_domain=fw2.loc code=rate_limited reason=Mail rate limit exceeded

@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="ru">
+<head><meta charset="UTF-8"><title>Связаться с нами</title></head>
+<body>
+<main>
+  <h1>Связаться с нами</h1>
+  <form data-rameva-form="contact" action="/form/contact" method="post">
+    {{ form_fields:contact }}
+    <label>Имя <input name="name" required maxlength="120" autocomplete="name"></label>
+    <label>Email <input type="email" name="email" required maxlength="254" autocomplete="email"></label>
+    <label>Телефон <input type="tel" name="phone" maxlength="32" autocomplete="tel"></label>
+    <label>Сообщение <textarea name="message" required minlength="10" maxlength="5000"></textarea></label>
+    <button type="submit">Отправить</button>
+    <p data-form-message aria-live="polite"></p>
+    <ul data-form-errors></ul>
+  </form>
+</main>
+<script src="/assets/js/forms.js" defer></script>
+</body>
+</html>

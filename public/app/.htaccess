@@ -1,0 +1,14 @@
+# Rameva 2 — внутренний каталог: прямой веб-доступ закрыт.
+#
+# app/ содержит конфигурацию приложения (app/Config/*.php), шаблоны Layouts,
+# фильтры и события. Конфигурация защищена PHP Guard, но доступ к каталогу
+# целиком не нужен никому, кроме самого фреймворка.
+#
+# Это лишь один слой защиты: на Nginx .htaccess не действует, аналогичные
+# ограничения приведены в deploy/nginx/ (справочный материал).
+<IfModule authz_core_module>
+	Require all denied
+</IfModule>
+<IfModule !authz_core_module>
+	Deny from all
+</IfModule>

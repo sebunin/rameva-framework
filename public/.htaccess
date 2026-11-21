@@ -1,0 +1,21 @@
+# Rameva 2 — Apache Front Controller Configuration
+# Примечание: Фреймворк спроектирован независимо от веб-сервера.
+# Под Nginx маршрутизация обеспечивается директивой: try_files $uri $uri/ /index.php?$query_string;
+
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Запрет прямого обращения к скрытым файлам и папкам
+    RewriteRule ^\.(.*)$ - [F,L]
+
+    # Если запрошенный ресурс не является существующим файлом или директорией,
+    # перенаправляем запрос в единую точку входа index.php
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php [QSA,L]
+
+    # D2: Запрет исполняемых расширений PHP и подобий.
+    RewriteRule \.(phtml|php3|php4|php5|php6|php7|php8|phar|pht|phps|inc)$ - [F,L]
+</IfModule>

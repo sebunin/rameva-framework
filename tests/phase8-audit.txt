@@ -1,0 +1,61 @@
+﻿--- lint ---
+--- sessions ---
+
+D:\OSPanel\home\fw2.loc\public\system\Services\SessionService.php:27: * - Единый вызов session_start()
+ с правильными параметрами
+D:\OSPanel\home\fw2.loc\public\system\Services\SessionService.php:33: * должны использовать SessionSer
+vice::start() вместо прямого вызова session_start().
+D:\OSPanel\home\fw2.loc\public\system\Services\SessionService.php:71:        // Настройки сессии ДО se
+ssion_start()
+D:\OSPanel\home\fw2.loc\public\system\Services\SessionService.php:87:            @session_start();
+--- mail unwanted ---
+--- tests ---
+forms_smoke.php
+<?php
+/**
+ * Smoke-тест форм (CLI).
+ *
+ * Запуск:
+ *   php tests/forms_smoke.php BASE_URL=https://fw2.loc [MAILPIT_URL=http://127.0.0.1:8025] [ROOT=public] [INSECURE=1]
+index.php
+<?php
+// Тестовые скрипты RAMEVA Framework — только CLI.
+http_response_code(403);
+exit;
+normalizer_test.php
+<?php
+/** Rameva 2 — CLI-регрессия нормализации готовых страниц. */
+if (PHP_SAPI !== 'cli') { http_response_code(404); exit; }
+define('RAMEVA_CORE', true);
+require __DIR__ . '/../public/system/Rendering/LinkNormalizer.php';
+use System\Rendering\LinkNormalizer;
+seo_dedupe_test.php
+<?php
+/** Rameva 2 — CLI-проверка SEO приоритетов, удаления дублей и JSON-LD. */
+if (PHP_SAPI !== 'cli') { http_response_code(404); exit; }
+define('RAMEVA_CORE', true);
+define('ROOTPATH', dirname(__DIR__) . '/public');
+define('APPPATH', ROOTPATH . '/app');
+--- status ---
+/ 200
+/contact 200
+/about 200
+/installer 404
+/pages/about.html 403
+/app/Layouts/main.html 403
+/system/Layouts/default.html 403
+/cron.php?key=wrong 200
+/robots.txt 200
+/sitemap.xml 200
+/llms.txt 200
+--- cookies ---
+HTTP/1.1 200 OK
+Date: Sun, 15 Nov 2026 08:27:41 GMT
+Server: Apache
+X-Powered-By: -
+Content-Type: text/html; charset=UTF-8
+
+--- mailpit ---
+{"Version":"v1.29.3","LatestVersion":"disabled","Database":"D:\\OSPanel\\data\\Mailpit\\default\\database.db","DatabaseSize":110592,"Messages":8,"Unread":8,"Tags":{},"RuntimeStats":{"Uptime":87670,"Memory":18337792,"MessagesDeleted":12,"SMTPAccepted":18,"SMTPAcceptedSize":37345,"SMTPRejected":0,"SMTPIgnored":0}}
+
+

@@ -1,0 +1,106 @@
+﻿
+FullName                                Length
+--------                                ------
+D:\OSPanel\home\fw2.loc\public\cron.php   2141
+                                              
+                                              
+                                              
+                                              
+                                              
+                                              
+                                              
+                                              
+                                              
+                                              
+                                              
+                                              
+                                              
+                                              
+                                              
+                                              
+                                              
+                                              
+                                              
+                                              
+                                              
+                                              
+                                              
+                                              
+PASS css/style.css
+PASS ./css/style.css
+PASS assets/css/style.css
+PASS ../assets/css/style.css
+PASS query
+PASS srcset
+PASS inline css
+PASS style block
+PASS unchanged /css/style.css
+PASS unchanged https://cdn.example/x.css
+PASS unchanged //cdn.example/x.js
+PASS unchanged data:image/png;base64,abc
+PASS unchanged #top
+PASS unchanged ?x=1
+PASS unchanged mailto:a@b.test
+PASS unchanged tel:123
+PASS unchanged javascript:alert(1)
+PASS unchanged {{ image }}
+PASS unchanged images/none.png
+PASS script
+PASS pre
+PASS code
+PASS comment
+PASS index.html
+PASS about.html
+PASS ./about.html#team
+PASS ../about.html
+PASS company/info.html
+PASS company/index.html
+PASS company/
+PASS /about.html
+PASS missing.html
+PASS suffix about.html
+PASS suffix index.html
+PASS suffix company/index.html
+PASS base
+PASS idempotence
+BENCH bytes=51200 ms=10.933
+TOTAL=37 FAIL=0
+PASS no-layout one title
+PASS no-layout one description
+PASS no-layout one canonical
+PASS no-layout one og
+PASS no-layout one twitter
+PASS no-layout priority
+PASS no-layout description
+PASS no-layout jsonld
+PASS no-layout canonical regenerated
+PASS main one title
+PASS main one description
+PASS main one canonical
+PASS main one og
+PASS main one twitter
+PASS main priority
+PASS main description
+PASS main jsonld
+PASS main canonical regenerated
+PASS no-layout one title
+PASS no-layout one description
+PASS no-layout one canonical
+PASS no-layout one og
+PASS no-layout one twitter
+PASS no-layout priority
+PASS no-layout description
+PASS no-layout jsonld
+PASS no-layout canonical regenerated
+PASS main one title
+PASS main one description
+PASS main one canonical
+PASS main one og
+PASS main one twitter
+PASS main priority
+PASS main description
+PASS main jsonld
+PASS main canonical regenerated
+FAIL=0
+
+

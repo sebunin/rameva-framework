@@ -1,0 +1,109 @@
+﻿
+Name            Length
+----            ------
+.htaccess          217
+forms_smoke.php  14013
+index.php          113
+
+
+
+        $sanitizedKey = $this->sanitizeKey($key);
+        $ttl = $ttl ?? $this->defaultTtl;
+        $expires = ($ttl === 0) ? 0 : (time() + $ttl);
+
+        $payload = serialize([
+            'expires' => $expires,
+            'value'   => $value,
+        ]);
+
+        $filePath = $this->getFilePath($sanitizedKey);
+        $tempPath = $filePath . '.' . uniqid('tmp', true);
+
+        if (@file_put_contents($tempPath, $payload, LOCK_EX) !== false) {
+            if (@rename($tempPath, $filePath)) {
+                self::$memoryCache[$sanitizedKey] = $value;
+                return true;
+            }
+            @unlink($tempPath);
+        }
+
+        return false;
+    }
+
+    /**
+     * Удаляет элемент из кэша.
+     *
+     * @param string $key Ключ кэша
+     * @return bool
+     */
+    public function delete(string $key): bool
+    {
+        $sanitizedKey = $this->sanitizeKey($key);
+        unset(self::$memoryCache[$sanitizedKey]);
+
+        $filePath = $this->getFilePath($sanitizedKey);
+        if (file_exists($filePath)) {
+            return @unlink($filePath);
+        }
+
+        return true;
+    }
+
+    /**
+     * Очищает весь кэш в директории.
+     *
+     * @return bool
+     */
+    public function clear(): bool
+    {
+        self::$memoryCache = [];
+        $files = glob($this->cacheDir . '/*.cache');
+        if ($files === false) {
+            return false;
+        }
+
+        $allOk = true;
+        foreach ($files as $file) {
+            if (is_file($file)) {
+                $allOk = @unlink($file) && $allOk;
+            }
+        }
+
+        return $allOk;
+    }
+
+    /**
+     * Проверяет существование и создаёт директорию кэша при необходимости.
+     */
+    private function ensureCacheDirectory(): void
+    {
+        if (!is_dir($this->cacheDir)) {
+            @mkdir($this->cacheDir, 0755, true);
+        }
+    }
+
+    /**
+     * Формирует безопасное имя ключа.
+     */
+    private function sanitizeKey(string $key): string
+    {
+        return preg_replace('/[^a-zA-Z0-9_\-\.]/', '_', $key);
+    }
+
+    /**
+     * Возвращает полный путь к файлу кэша.
+     */
+    private function getFilePath(string $sanitizedKey): string
+    {
+        return $this->cacheDir . '/' . md5($sanitizedKey) . '.cache';
+    }
+}
+
+D:\OSPanel\home\fw2.loc\public\system\Security\Honeypot.php:18:use System\Services\ClientIp;
+D:\OSPanel\home\fw2.loc\public\system\Security\Honeypot.php:44:        '/wp-json/',
+D:\OSPanel\home\fw2.loc\public\system\Security\Honeypot.php:168:        $ip = ClientIp::get();
+D:\OSPanel\home\fw2.loc\public\system\Security\Honeypot.php:170:        LogService::write("{$reason} |
+ IP: {$ip} | URI: {$path} | UA: {$ua}", 'warning', 'honeypot.log');
+{"Version":"v1.29.3","LatestVersion":"disabled","Database":"D:\\OSPanel\\data\\Mailpit\\default\\database.db","DatabaseSize":110592,"Messages":8,"Unread":8,"Tags":{},"RuntimeStats":{"Uptime":87124,"Memory":18329600,"MessagesDeleted":12,"SMTPAccepted":18,"SMTPAcceptedSize":37345,"SMTPRejected":0,"SMTPIgnored":0}}
+
+

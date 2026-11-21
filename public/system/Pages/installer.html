@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>RAMEVA Framework 2 — Установка</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.55; color: #263238; background: #f4f6f8; min-height: 100vh; padding: 40px 20px; }
+.container { max-width: 880px; margin: 0 auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 12px rgba(0,0,0,.08); overflow: hidden; }
+.header { background: #2c3e50; color: #fff; padding: 28px 30px; }
+.header h1 { font-size: 1.5rem; font-weight: 600; }
+.header .sub { opacity: .75; font-size: .875rem; margin-top: 4px; }
+.content { padding: 28px 30px 34px; }
+.step { margin-bottom: 22px; padding: 20px; border-radius: 6px; background: #fafbfc; border: 1px solid #e6eaee; }
+.step h2 { font-size: 1.05rem; margin-bottom: 14px; color: #2c3e50; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.step p { font-size: .9rem; color: #546e7a; margin-bottom: 12px; }
+.badge { display: inline-block; padding: 2px 9px; border-radius: 4px; font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; }
+.badge.pass { background: #d4edda; color: #155724; }
+.badge.warn { background: #fff3cd; color: #856404; }
+.badge.fail { background: #f8d7da; color: #721c24; }
+.badge.info { background: #d1ecf1; color: #0c5460; }
+.badge.skipped, .badge.pending { background: #e2e3e5; color: #383d41; }
+.check-item { display: flex; justify-content: space-between; gap: 14px; padding: 9px 0; border-bottom: 1px solid #eef1f3; font-size: .9rem; }
+.check-item:last-child { border-bottom: none; }
+.check-item .name { font-weight: 500; }
+.check-item .val { color: #607d8b; font-family: ui-monospace, Consolas, monospace; font-size: .82rem; }
+.details { margin-top: 8px; padding-left: 4px; font-size: .82rem; color: #607d8b; }
+.details div { padding: 3px 0; }
+pre.snippet { background: #1e1e1e; color: #d4d4d4; padding: 14px; border-radius: 5px; font-family: ui-monospace, Consolas, monospace; font-size: .78rem; overflow-x: auto; white-space: pre; margin-top: 8px; line-height: 1.45; }
+.token-box { background: #263238; color: #aed581; padding: 12px 14px; border-radius: 5px; font-family: ui-monospace, Consolas, monospace; font-size: .8rem; word-break: break-all; margin-top: 8px; }
+.alert { padding: 12px 16px; border-radius: 5px; font-size: .88rem; margin-bottom: 18px; border-left: 4px solid; }
+.alert-warn { background: #fff8e1; border-color: #ffb300; color: #6d4c41; }
+.alert-error { background: #fdecea; border-color: #c62828; color: #7f1d1d; }
+.alert-ok { background: #e8f5e9; border-color: #2e7d32; color: #1b5e20; }
+.alert-info { background: #e3f2fd; border-color: #1565c0; color: #0d47a1; }
+.actions { display: flex; gap: 12px; margin-top: 18px; flex-wrap: wrap; }
+.btn { padding: 11px 22px; border: none; border-radius: 4px; font-size: .92rem; cursor: pointer; font-weight: 500; font-family: inherit; }
+.btn:disabled { opacity: .55; cursor: not-allowed; }
+.btn-primary { background: #2c3e50; color: #fff; }
+.btn-primary:hover:not(:disabled) { background: #1a252f; }
+.btn-secondary { background: #78909c; color: #fff; }
+.btn-secondary:hover:not(:disabled) { background: #607d8b; }
+.hidden { display: none !important; }
+input[type=text] { width: 100%; padding: 9px 12px; border: 1px solid #cfd8dc; border-radius: 4px; font-family: inherit; font-size: .9rem; margin-top: 6px; }
+label { font-size: .85rem; color: #455a64; font-weight: 500; }
+code { font-family: ui-monospace, Consolas, monospace; font-size: .85em; background: #eceff1; padding: 1px 5px; border-radius: 3px; }
+.footer-note { font-size: .78rem; color: #90a4ae; margin-top: 26px; text-align: center; }
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>RAMEVA Framework 2</h1>
+        <div class="sub">Установка и диагностика окружения</div>
+    </div>
+    <div class="content">
+        <div id="gate" class="hidden">
+            <div class="alert alert-warn">
+                Диагностика защищена ключом установки. Он создан автоматически при первом запуске и
+                хранится в файле <code>storage/installer.key</code>. Откройте его по FTP/SSH и
+                добавьте ключ в адрес страницы: <code>?key=ВАШ_КЛЮЧ</code>
+            </div>
+            <div class="step">
+                <h2>Доступ к диагностике</h2>
+                <label for="gate-key">Ключ установки</label>
+                <input type="text" id="gate-key" placeholder="ключ из storage/installer.key" autocomplete="off">
+                <div class="actions">
+                    <button class="btn btn-primary" onclick="window.RAMEVA_UNLOCK()">Продолжить</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="main" class="hidden">
+            <div class="alert alert-info">
+                Боевой режим не включён: пока диагностика не пройдена, сайт показывает эту страницу,
+                а не содержимое страниц.
+            </div>
+
+            <div class="step">
+                <h2>1–3. Окружение и веб-сервер <span id="diag-badge" class="badge pending">ожидание</span></h2>
+                <p>Версия PHP, обязательные расширения, права на запись в storage/ и определение веб-сервера.</p>
+                <div class="actions" style="margin-top:0">
+                    <button id="btn-diag" class="btn btn-primary" onclick="window.RAMEVA_RUN()">Запустить диагностику</button>
+                </div>
+                <div id="diag-results" class="hidden"></div>
+            </div>
+
+            <div class="step hidden" id="step-web">
+                <h2>4–5. Защита внутренних каталогов <span id="web-badge" class="badge pending">ожидание</span></h2>
+                <div id="web-content"></div>
+            </div>
+
+            <div class="step hidden" id="step-token">
+                <h2>7. Ключ для cron.php</h2>
+                <div id="token-content"></div>
+            </div>
+
+            <div class="step hidden" id="step-finish">
+                <h2>8. Завершение установки <span id="finish-badge" class="badge pending">ожидание</span></h2>
+                <div id="finish-content"></div>
+            </div>
+        </div>
+
+        <div class="footer-note">RAMEVA Framework 2 — установщик</div>
+
+    </div>
+</div>
+<script>
+(function () {
+    "use strict";
+
+    var boot = window.RAMEVA_INSTALLER || {};
+
+    // Ключ установки не встраивается в HTML (иначе он попадал бы в кэш
+    // браузера и в исходник страницы): он берётся из адреса ?key=..., по
+    // которому администратор открыл установщик.
+    var setupKey = boot.setupKey || (function () {
+        var m = /[?&]key=([^&#]*)/.exec(window.location.search || "");
+        return m ? decodeURIComponent(m[1]) : "";
+    })();
+
+    var state = { diagnostics: null, posture: "degraded", reason: "", tokenShown: false };
+
+    function $(id) { return document.getElementById(id); }
+
+    function badge(el, cls, text) {
+        el.className = "badge " + cls;
+        el.textContent = text;
+    }
+
+    function esc(v) {
+        return String(v === null || v === undefined ? "" : v)
+            .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+
+    function post(action, payload) {
+        var body = { action: action, key: setupKey };
+        if (payload) {
+            Object.keys(payload).forEach(function (k) { body[k] = payload[k]; });
+        }
+        // Все параметры дублируются в query-строке: на некоторых связках
+        // Apache+PHP тело POST (php://input) приходит искажённым, а
+        // $_GET работает надёжно.
+        var qs = new URLSearchParams({ action: action, key: setupKey });
+        if (payload) {
+            Object.keys(payload).forEach(function (k) { qs.append(k, String(payload[k])); });
+        }
+        return fetch(window.location.pathname + "?" + qs.toString(), {
+            method: "POST",
+            credentials: "same-origin",
+            headers: { "Content-Type": "application/json", "X-Requested-With": "XMLHttpRequest" },
+            body: JSON.stringify(body)
+        }).then(function (r) {
+            return r.text().then(function (t) {
+                try { return JSON.parse(t); }
+                catch (e) { throw new Error("Некорректный ответ сервера (HTTP " + r.status + ")"); }
+            });
+        });
+    }
+
+    var STATUS_MAP = {
+        pass: ["pass", "ок"], ok: ["pass", "ок"], fail: ["fail", "ошибка"],
+        warn: ["warn", "внимание"], info: ["info", "инфо"], skipped: ["skipped", "пропущено"],
+        pending: ["pending", "ожидание"], updated: ["pass", "записано"], already_ok: ["pass", "уже на месте"]
+    };
+
+    function statusBadge(status) {
+        return STATUS_MAP[status] || ["pending", String(status)];
+    }
+
+    function renderItem(row) {
+        var b = statusBadge(row.status);
+        var detail = "";
+        if (row.details && row.details.length) {
+            detail = '<div class="details">' + row.details.map(function (d) {
+                if (typeof d === "string") { return "<div>" + esc(d) + "</div>"; }
+                var line = d.path || d.name || "";
+                if (d.code !== undefined) { line += " → HTTP " + d.code; }
+                if (d.status) { line += " (" + statusBadge(d.status)[1] + ")"; }
+                if (d.required === false) { line += " · необязательно"; }
+                return "<div>" + esc(line) + "</div>";
+            }).join("") + "</div>";
+        }
+        var value = (row.value !== undefined && row.value !== null && row.value !== "")
+            ? '<div class="check-item"><span class="name"></span><span class="val">' + esc(row.value) + "</span></div>"
+            : "";
+        return '<div class="check-item"><span class="name">' + esc(row.name || "") + "</span>" +
+               '<span class="badge ' + b[0] + '">' + esc(b[1]) + "</span></div>" + value + detail;
+    }
+
+    window.RAMEVA_UNLOCK = function () {
+        var value = ($("gate-key").value || "").trim();
+        if (!value) { return; }
+        window.location.search = "?key=" + encodeURIComponent(value);
+    };
+
+    window.RAMEVA_RUN = function () {
+        var btn = $("btn-diag"), out = $("diag-results");
+        btn.disabled = true;
+        btn.textContent = "Проверка...";
+        badge($("diag-badge"), "pending", "выполняется");
+
+        post("run_diagnostics").then(function (data) {
+            if (!data || data.error) { throw new Error((data && data.error) || "пустой ответ"); }
+            state.diagnostics = data;
+            var html = "";
+            ["php_version", "extensions", "write_perms", "server_type"].forEach(function (k) {
+                if (data[k]) { html += renderItem(data[k]); }
+            });
+            out.innerHTML = html;
+            out.classList.remove("hidden");
+
+            if ((data.overall || "") === "critical_fail") {
+                badge($("diag-badge"), "fail", "критично");
+                $("step-web").classList.add("hidden");
+                $("step-token").classList.add("hidden");
+                $("step-finish").classList.add("hidden");
+            } else {
+                badge($("diag-badge"), "pass", "пройдено");
+                renderWeb(data);
+            }
+        }).catch(function (e) {
+            out.innerHTML = '<div class="alert alert-error">' + esc(e.message) + "</div>";
+            out.classList.remove("hidden");
+            badge($("diag-badge"), "fail", "ошибка");
+        }).then(function () {
+            btn.disabled = false;
+            btn.textContent = "Повторить диагностику";
+        });
+    };
+    function renderWeb(data) {
+        $("step-web").classList.remove("hidden");
+        var server = (data.server_type && data.server_type.value) || "unknown";
+        var html = "";
+
+        if (server === "apache") {
+            var w = data.htaccess_write || { details: [] };
+            var v = data.htaccess_verify || { details: [] };
+            html += "<p>Apache: файлы .htaccess записываются автоматически, затем защита проверяется реальным HTTP-запросом к сайту.</p>";
+            html += renderItem({ name: "Запись .htaccess", status: w.status, details: w.details || [] });
+            html += renderItem({ name: "Проверка защиты запросом", status: v.status, details: v.details || [] });
+            if (v.status === "ok") {
+                badge($("web-badge"), "pass", "защищено");
+                state.posture = "secure";
+                state.reason = "";
+            } else {
+                badge($("web-badge"), "fail", "не подтверждено");
+                state.posture = "degraded";
+                state.reason = "Apache: HTTP-проверка не подтвердила блокировку внутренних каталогов";
+            }
+        } else if (server === "nginx") {
+            var cfg = data.nginx_config || {};
+            html += "<p>Nginx: .htaccess не действует. Вставьте блок ниже в конфигурацию сервера, перезагрузите Nginx и нажмите «Проверить защиту».</p>";
+            html += '<pre class="snippet">' + esc(cfg.details || "") + "</pre>";
+            html += '<div class="actions"><button class="btn btn-secondary" onclick="window.RAMEVA_VERIFY()">Проверить защиту</button></div>';
+            html += '<div id="web-result"></div>';
+            badge($("web-badge"), "warn", "требует проверки");
+            state.posture = "degraded";
+            state.reason = "Nginx: защита внутренних каталогов не подтверждена";
+        } else {
+            html += "<p>Тип сервера определить не удалось. Проверьте вручную: запрос к <code>/pages/index.html</code> должен отдавать 403 или 404.</p>";
+            html += '<div class="actions"><button class="btn btn-secondary" onclick="window.RAMEVA_VERIFY()">Проверить защиту</button></div>';
+            html += '<div id="web-result"></div>';
+            badge($("web-badge"), "warn", "неизвестно");
+            state.posture = "degraded";
+            state.reason = "Не удалось определить веб-сервер; защита каталогов не подтверждена";
+        }
+
+        $("web-content").innerHTML = html;
+        $("step-token").classList.remove("hidden");
+        $("step-finish").classList.remove("hidden");
+        loadToken();
+        renderFinish();
+    }
+    window.RAMEVA_VERIFY = function () {
+        var target = $("web-result");
+        if (target) { target.innerHTML = "<p>Проверка...</p>"; }
+        post("verify_protection").then(function (data) {
+            if (!data || data.error) { throw new Error((data && data.error) || "пустой ответ"); }
+            var rows = Object.keys(data.codes || {}).map(function (p) {
+                var code = data.codes[p];
+                return { path: p, code: code, status: (code === 403 || code === 404) ? "ok" : "fail" };
+            });
+            var item = renderItem({
+                name: "HTTP-проверка защищённых путей",
+                status: data.success ? "ok" : "fail",
+                details: rows
+            });
+            if (target) { target.innerHTML = item; }
+            if (data.success) {
+                badge($("web-badge"), "pass", "защищено");
+                state.posture = "secure";
+                state.reason = "";
+            } else {
+                badge($("web-badge"), "fail", "не защищено");
+                state.posture = "degraded";
+                state.reason = "Запрос к защищённому пути вернул 200 вместо 403/404";
+            }
+            renderFinish();
+        }).catch(function (e) {
+            if (target) { target.innerHTML = '<div class="alert alert-error">' + esc(e.message) + "</div>"; }
+        });
+    };
+    function loadToken() {
+        if (state.tokenShown) { return; }
+        state.tokenShown = true;
+        post("ensure_token").then(function (data) {
+            var box = $("token-content");
+            if (!data || !data.token) {
+                box.innerHTML = '<div class="alert alert-warn">Ключ не создан: не удалось записать в app/Config/Security.php. ' +
+                    'Сгенерируйте вручную: <code>php -r "echo bin2hex(random_bytes(32));"</code> и вставьте в секцию integrity → token.</div>';
+                return;
+            }
+            var base = data.base || "";
+            var check = base + "/cron.php?key=" + encodeURIComponent(data.token) + "&action=check";
+            var diag = base + "/cron.php?key=" + encodeURIComponent(data.token) + "&action=diagnose";
+            var html = "";
+            if (data.created) {
+                html += '<div class="alert alert-warn">Ключ создан сейчас и показывается один раз. Сохраните его.</div>';
+            }
+            html += '<div class="token-box">' + esc(data.token) + "</div>";
+            html += '<p style="margin-top:14px;font-size:.85rem;color:#546e7a">Регулярная проверка целостности (в планировщик хостинга):</p>';
+            html += '<pre class="snippet">wget -q -O /dev/null "' + esc(check) + '"</pre>';
+            html += '<p style="margin-top:12px;font-size:.85rem;color:#546e7a">Повторная диагностика (после переезда или смены конфигурации):</p>';
+            html += '<pre class="snippet">' + esc(diag) + "</pre>";
+            box.innerHTML = html;
+        }).catch(function () {
+            $("token-content").innerHTML = '<div class="alert alert-error">Не удалось получить ключ.</div>';
+        });
+    }
+    function renderFinish() {
+        var box = $("finish-content");
+        var html = "";
+        if (state.posture === "secure") {
+            html += '<div class="alert alert-ok">Все проверки пройдены. Боевой режим будет включён с отметкой <strong>secure</strong>.</div>';
+            badge($("finish-badge"), "pass", "готово");
+        } else {
+            html += '<div class="alert alert-warn">Защита внутренних каталогов не подтверждена. Продолжить можно, но установка будет ' +
+                "зафиксирована как <strong>degraded</strong>: причина сохранится в конфиге и в журнале и будет видна постоянно.</div>" +
+                '<label for="degraded-reason">Причина (обязательно)</label>' +
+                '<input type="text" id="degraded-reason" value="' + esc(state.reason) + '" placeholder="например: нет доступа к конфигу Nginx">';
+            badge($("finish-badge"), "warn", "degraded");
+        }
+        html += '<div class="actions"><button class="btn btn-primary" onclick="window.RAMEVA_FINISH()">Включить боевой режим</button></div>';
+        box.innerHTML = html;
+    }
+
+    window.RAMEVA_FINISH = function () {
+        var reason = state.reason;
+        if (state.posture !== "secure") {
+            var input = $("degraded-reason");
+            reason = input ? (input.value || "").trim() : "";
+            if (!reason) {
+                window.alert("Укажите причину, по которой защита не подтверждена.");
+                return;
+            }
+        }
+        post("finalize", { posture: state.posture, reason: reason, diagnostics: state.diagnostics || {} })
+            .then(function (data) {
+                if (!data || !data.success) { throw new Error("Не удалось сохранить состояние установки"); }
+                window.location.reload();
+            })
+            .catch(function (e) {
+                $("finish-content").insertAdjacentHTML("afterbegin",
+                    '<div class="alert alert-error">' + esc(e.message) + "</div>");
+            });
+    };
+
+    if (boot.unlocked) {
+        $("main").classList.remove("hidden");
+        window.RAMEVA_RUN();
+    } else {
+        $("gate").classList.remove("hidden");
+    }
+
+
+
+
+})();
+</script>
+
+</body>
+</html>

@@ -263,12 +263,41 @@ class Kernel
             return false;
         }
 
-        $path = strtolower(parse_url($uri, PHP_URL_PATH) ?? '/');
+        $path = parse_url($uri, PHP_URL_PATH) ?? '/';
+        $segments = array_filter(explode('/', $path), 'strlen');
         $patterns = $blacklist['patterns'] ?? [];
 
         foreach ($patterns as $pattern) {
-            if (str_contains($path, strtolower($pattern))) {
-                return true;
+            $patternLower = strtolower($pattern);
+            if (str_contains($patternLower, '/')) {
+                // Шаблон из нескольких сегментов (например vendor/phpunit): проверяем совпадение подпути
+                $normalizedPath = '/' . trim(strtolower($path), '/') . '/';
+                $normalizedPattern = '/' . trim($patternLower, '/') . '/';
+                if (str_contains($normalizedPath, $normalizedPattern)) {
+                    return true;
+                }
+                continue;
+            }
+            foreach ($segments as $segment) {
+                $segmentLower = strtolower($segment);
+                if (str_starts_with($patternLower, '.')) {
+                    // Шаблон с точкой в начале.
+                    // Точное совпадение сегмента (например, .env блокирует .env).
+                    if ($segmentLower === $patternLower) {
+                        return true;
+                    }
+                    // Префиксное совпадение для конфигурационных файлов (.env → .environment, .env.local).
+                    // Исключение: .git не должен блокировать .github (разные каталоги).
+                    if ($patternLower !== '.git' && str_starts_with($segmentLower, $patternLower)) {
+                        return true;
+                    }
+                } else {
+                    // Шаблон без точки: точное совпадение целого сегмента
+                    // (например, pma совпадает с сегментом pma, не с pmarket).
+                    if ($segmentLower === $patternLower) {
+                        return true;
+                    }
+                }
             }
         }
 

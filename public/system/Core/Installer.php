@@ -1035,8 +1035,10 @@ class Installer
 
         $content = (string)@file_get_contents($file);
 
-        if (preg_match("/'token'\\s*=>\\s*'([^']*)'/", $content, $m) === 1 && $m[1] !== '') {
-            return ['token' => $m[1], 'created' => false];
+        // Существующий token_hash не перезаписывается — иначе сломается уже
+        // настроенный планировщик администратора.
+        if (preg_match("/'token_hash'\\s*=>\\s*'([^']*)'/", $content, $m) === 1 && $m[1] !== '') {
+            return ['token' => '', 'created' => false];
         }
 
         if (!is_writable($file)) {
@@ -1044,9 +1046,10 @@ class Installer
         }
 
         $token = bin2hex(random_bytes(32));
+        $tokenHash = hash('sha256', $token);
 
-        if (preg_match("/'token'\\s*=>\\s*'[^']*'/", $content) === 1) {
-            $content = (string)preg_replace("/'token'\\s*=>\\s*'[^']*'/", "'token' => '" . $token . "'", $content, 1);
+        if (preg_match("/'token_hash'\\s*=>\\s*'[^']*'/", $content) === 1) {
+            $content = (string)preg_replace("/'token_hash'\\s*=>\\s*'[^']*'/", "'token_hash' => '" . $tokenHash . "'", $content, 1);
         } else {
             return ['token' => '', 'created' => false];
         }
@@ -1054,6 +1057,48 @@ class Installer
         $written = @file_put_contents($file, $content, LOCK_EX) !== false;
 
         return ['token' => $written ? $token : '', 'created' => $written];
+    }
+
+    /**
+     * Создаёт скелет каталогов storage/ при первом запуске, если они отсутствуют.
+     *
+     * @return void
+     */
+    public static function ensureStorageSkeleton(): void
+    {
+        $dirs = [
+            'cache',
+            'logs',
+            'session',
+            'sessions',
+            'uploads',
+            'debugbar',
+        ];
+
+        $stub = "<?php\nhttp_response_code(403);\nexit;\n";
+
+        foreach ($dirs as $dir) {
+            $abs = STORAGEPATH . '/' . $dir;
+            if (!is_dir($abs)) {
+                @mkdir($abs, 0755, true);
+            }
+
+            $index = $abs . '/index.php';
+            if (!file_exists($index)) {
+                @file_put_contents($index, $stub, LOCK_EX);
+            }
+        }
+
+        // E3: Для Apache — защитный .htaccess в storage/, если отсутствует.
+        $software = strtolower((string)($_SERVER['SERVER_SOFTWARE'] ?? ''));
+        $isApache = str_contains($software, 'apache') || function_exists('apache_get_modules');
+
+        if ($isApache) {
+            $htaccess = STORAGEPATH . '/.htaccess';
+            if (!file_exists($htaccess)) {
+                @file_put_contents($htaccess, self::HTACCESS_CONTENT, LOCK_EX);
+            }
+        }
     }
 }
 

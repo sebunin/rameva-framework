@@ -93,6 +93,59 @@ if (!empty($appConfig['debug'])) {
     error_reporting(0);
 }
 
+$debug = !empty($appConfig['debug']);
+
+// B1: Глобальные обработчики ошибок — ловят то, что выходит за пределы
+// try в Kernel::launch() (Boot.php, чёрный список, рейтит-лимитер, Honeypot,
+// AntiBot, канонический редирект, before-фильтры), а также фатальные ошибки.
+set_exception_handler(function (\Throwable $e) use ($debug) {
+    \System\Services\LogService::write(
+        "Uncaught exception: " . $e->getMessage() . "\n" . $e->getTraceAsString(),
+        'error',
+        'error.log'
+    );
+    if ($debug) {
+        http_response_code(500);
+        header('Content-Type: text/html; charset=UTF-8');
+        echo '<!DOCTYPE html><html><head><title>500 Server Error</title></head><body>'
+            . '<h1>500 Internal Server Error</h1>'
+            . '<p>' . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8') . '</p>'
+            . '</body></html>';
+    } elseif (!headers_sent()) {
+        http_response_code(500);
+        header('Content-Type: text/html; charset=UTF-8');
+        echo '<!DOCTYPE html><html><head><title>500 Server Error</title></head><body><h1>500 Internal Server Error</h1></body></html>';
+    }
+    exit;
+});
+
+set_error_handler(function (int $errno, string $errstr, string $errfile, int $errline) {
+    \System\Services\LogService::write(
+        "PHP error [{$errno}]: {$errstr} in {$errfile}:{$errline}",
+        'warning',
+        'app.log'
+    );
+    return true; // не прерывать выполнение
+}, E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED);
+
+register_shutdown_function(function () use ($debug) {
+    $error = error_get_last();
+    if ($error !== null
+        && in_array($error['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR], true)
+    ) {
+        \System\Services\LogService::write(
+            "Fatal error: {$error['message']} in {$error['file']}:{$error['line']}",
+            'error',
+            'error.log'
+        );
+        if (!$debug && !headers_sent()) {
+            http_response_code(500);
+            header('Content-Length: 0');
+            exit;
+        }
+    }
+});
+
 // 5. Автозагрузка всех хелперов (*_helper.php)
 \System\Helpers\HelperLoader::loadAll();
 
@@ -103,6 +156,9 @@ if (file_exists(APPPATH . '/Events/events.php')) {
 
 // 7. Оповещение о завершении загрузки bootstrap
 \System\Core\Events::trigger('system.booted');
+
+// E2: Автосоздание скелета storage/ (дешево — только при отсутствии директорий).
+\System\Core\Installer::ensureStorageSkeleton();
 
 // 8. Запуск ядра фреймворка
 //

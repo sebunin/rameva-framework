@@ -734,11 +734,11 @@ class Tripwire
             return self::deny($cli);
         }
 
-        $token = (string)($config['token'] ?? '');
+        $storedHash = (string)($config['token_hash'] ?? '');
         $given = (string)($params['key'] ?? '');
 
         // Пустой ключ в конфигурации означает, что точка входа закрыта целиком
-        if ($token === '' || $given === '' || !hash_equals($token, $given)) {
+        if ($storedHash === '' || $given === '' || !hash_equals($storedHash, hash('sha256', $given))) {
             LogService::write('Integrity: обращение к cron.php без корректного ключа', 'warning', 'security.log');
 
             return self::deny($cli);

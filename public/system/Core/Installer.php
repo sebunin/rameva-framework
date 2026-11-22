@@ -29,7 +29,7 @@ if (!defined('RAMEVA_CORE')) {
  *
  * Состояние установки хранится в storage/installer.state.php (PHP-файл под Guard),
  * повторная диагностика после установки вызывается через public/cron.php с ключом
- * integrity.token — установщик в этом режиме недоступен напрямую.
+ * integrity.token_hash — установщик в этом режиме недоступен напрямую.
  *
  * Секретов в pages/, app/Layouts/, system/Layouts/ не появляется: ключи лежат
  * только в app/Config/ и storage/, закрытых от веба.
@@ -1020,7 +1020,7 @@ class Installer
 
     /**
      * Ключ доступа к cron.php: генерируется при установке и записывается в
-     * app/Config/Security.php (секция integrity, token). Существующий ключ
+     * app/Config/Security.php (секция integrity, token_hash). Существующий ключ
      * не перезаписывается — иначе уже настроенный планировщик сломается.
      *
      * @return array{token: string, created: bool}

@@ -44,7 +44,6 @@ class Honeypot
         '/wp-json/',
         '/administrator/',
         '/admin.php',
-        '/phpmyadmin/',
     ];
 
     /** @var array Легитимные поисковые роботы, которых нельзя блокировать */

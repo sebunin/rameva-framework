@@ -67,15 +67,38 @@ class Router
         $configFile = APPPATH . '/Config/App.php';
         $config = file_exists($configFile) ? (require $configFile) : [];
         $debug = !empty($config['debug']);
+        $routeCheckInterval = $this->resolveRouteCheckInterval($config);
 
         $assetsFile = STORAGEPATH . '/cache/assets.php';
         $signatureFile = STORAGEPATH . '/cache/routes.signature.php';
+        $checkAtFile = STORAGEPATH . '/cache/.route_check_at';
+
+        // Если интервал проверки > 0 и метка свежая — не пересчитываем подпись,
+        // берём карту из кэша (если он есть). Если кэша нет — подпись считается
+        // обязательно, иначе сайт не запустится на пустом кэше.
+        if ($routeCheckInterval > 0 && is_file($checkAtFile)) {
+            $lastCheck = (int)@file_get_contents($checkAtFile);
+            if (time() - $lastCheck < $routeCheckInterval) {
+                if (file_exists($this->cacheFile)) {
+                    $cached = require $this->cacheFile;
+                    if (is_array($cached)) {
+                        $this->routes = $cached;
+                        return;
+                    }
+                }
+                // Кэша нет — подпись считается обязательно (и ниже обновится метка)
+            }
+        }
+
         $signature = $this->sourceSignature();
         $oldSignature = is_file($signatureFile) ? require $signatureFile : null;
+
+        // Быстрый путь из кэша (без учёта интервала): debug=false, кэш есть, подписи совпадают
         if (!$debug && file_exists($this->cacheFile) && is_file($assetsFile) && $oldSignature === $signature) {
             $cached = require $this->cacheFile;
             if (is_array($cached)) {
                 $this->routes = $cached;
+                $this->updateRouteCheckMarker($checkAtFile);
                 return;
             }
         }
@@ -102,6 +125,9 @@ class Router
         sort($assets);
         @file_put_contents($assetsFile, "<?php\n// Generated asset inventory.\n{$guard}\nreturn " . var_export($assets, true) . ";\n", LOCK_EX);
         @file_put_contents($signatureFile, "<?php\n// Route/asset source signature.\n{$guard}\nreturn " . var_export($signature, true) . ";\n", LOCK_EX);
+
+        // A4: обновляем метку времени после каждого реального вычисления подписи
+        $this->updateRouteCheckMarker($checkAtFile);
 
         // Автоматическая генерация sitemap.xml, llms.txt и строки Sitemap в robots.txt
         // при компиляции карты маршрутов (не на каждый запрос)
@@ -481,5 +507,37 @@ class Router
         }
         sort($entries);
         return hash('sha256', implode("\n", $entries));
+    }
+
+    /**
+     * Резолвит параметр route_check_interval из конфигурации.
+     * null → 0 при debug=true, 60 при debug=false (авто).
+     * Любое целое число — используется как есть (осознанный override).
+     *
+     * @param array $config Конфигурация приложения
+     * @return int Интервал в секундах (0 — проверять на каждом запросе)
+     */
+    private function resolveRouteCheckInterval(array $config): int
+    {
+        $interval = $config['route_check_interval'] ?? null;
+        if ($interval === null) {
+            return !empty($config['debug']) ? 0 : 60;
+        }
+        return (int)$interval;
+    }
+
+    /**
+     * Обновляет метку времени последней проверки подписи маршрутов.
+     *
+     * @param string $checkAtFile Путь к файлу метки
+     * @return void
+     */
+    private function updateRouteCheckMarker(string $checkAtFile): void
+    {
+        $cacheDir = dirname($checkAtFile);
+        if (!is_dir($cacheDir)) {
+            @mkdir($cacheDir, 0755, true);
+        }
+        @file_put_contents($checkAtFile, (string)time(), LOCK_EX);
     }
 }

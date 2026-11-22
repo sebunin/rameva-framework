@@ -74,6 +74,10 @@ return [
             'eval-stdin.php',
             'phpmyadmin',
             'pma',
+            // 'phpmyadmin' и 'pma' НЕ убирать: на ISPmanager и аналогичных панелях
+            // домен/phpmyadmin/ штатно обслуживается отдельным location/Alias на уровне
+            // Nginx/Apache в обход PHP — сюда долетает только запрос без настроенного
+            // алиаса или от сканера, и 403 здесь корректен в обоих случаях.
             'alfa-rex',
             'wso.php',
             'shell.php',
